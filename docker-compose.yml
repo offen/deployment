@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  offen:
+    image: offen/offen:latest
+    volumes:
+      - /home/ubuntu/data/db:/data
+      - /home/ubuntu/data/offen.env:/root/.config/offen.env
+      - /home/ubuntu/data/cache/:/var/www/.cache
+    ports:
+      - 80:80
+      - 443:443
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: eu-central-1
+        awslogs-group: production
+        awslogs-stream: offen
