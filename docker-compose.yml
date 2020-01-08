@@ -21,7 +21,6 @@ services:
       options:
         awslogs-region: eu-central-1
         awslogs-group: production
-        awslogs-stream: offen
 
 volumes:
   db:
