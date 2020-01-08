@@ -3,16 +3,26 @@ version: '3'
 services:
   offen:
     image: offen/offen:latest
+    restart: on-failure
     volumes:
-      - /home/ubuntu/data/db:/data
-      - /home/ubuntu/data/offen.env:/root/.config/offen.env
-      - /home/ubuntu/data/cache/:/var/www/.cache
+      - db:/data/db
+      - certs:/data/certs
+      - /home/ubuntu/offen.env:/root/.config/offen.env
+      - /home/ubuntu/bootstrap.yml:/root/bootstrap.yml
     ports:
       - 80:80
       - 443:443
+    environment:
+      OFFEN_SERVER_AUTOTLS: 'analytics.offen.dev'
+      OFFEN_SERVER_CERTIFICATECACHE: '/data/certs'
+      OFFEN_DATABASE_CONNECTIONSTRING: '/data/db/offen.db'
     logging:
       driver: awslogs
       options:
         awslogs-region: eu-central-1
         awslogs-group: production
         awslogs-stream: offen
+
+volumes:
+  db:
+  certs:
