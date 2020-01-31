@@ -19,8 +19,6 @@ Key features are:
 The `offen.env` file referenced in the compose file is not included in this repository as it contains secrets. The keys it contains are:
 
 ```
- OFFEN_SECRETS_COOKIEEXCHANGE = "xxx"
- OFFEN_SECRETS_EMAILSALT = "xxx"
  OFFEN_SMTP_HOST = "xxx"
  OFFEN_SMTP_USER = "xxx"
  OFFEN_SMTP_PASSWORD = "xxx"
