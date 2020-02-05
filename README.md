@@ -22,4 +22,5 @@ The `offen.env` file referenced in the compose file is not included in this repo
  OFFEN_SMTP_HOST = "xxx"
  OFFEN_SMTP_USER = "xxx"
  OFFEN_SMTP_PASSWORD = "xxx"
+ OFFEN_SMTP_SENDER = "xxx"
 ```
