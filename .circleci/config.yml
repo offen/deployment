@@ -1,0 +1,29 @@
+version: 2.1
+
+jobs:
+  deploy:
+    docker:
+      - image: cimg/base:2020.06
+    steps:
+      - checkout
+      - run:
+          name: Configure git
+          command: |
+            git config --global user.email "hioffen@posteo.de"
+            git config --global user.name "Offen Deploy Bot"
+            git remote add deployment ubuntu@analytics.offen.dev:offen/deployment.git
+      - run:
+          name: Push to deployment
+          command: |
+            git push remote master -f
+
+workflows:
+  version: 2
+  deploy:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - master
+
