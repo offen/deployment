@@ -10,6 +10,10 @@ jobs:
             - 'c3:09:7c:f4:a5:2c:66:45:79:53:f4:b4:ce:42:e7:bf'
       - checkout
       - run:
+          name: Run keyscan
+          command: |
+            ssh-keyscan -H analytics.offen.dev >> ~/.ssh/known_hosts
+      - run:
           name: Configure git
           command: |
             git config --global user.email "hioffen@posteo.de"
