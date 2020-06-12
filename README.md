@@ -27,4 +27,33 @@ The `offen.env` file referenced in the compose file is not included in this repo
  OFFEN_SMTP_USER = "xxx"
  OFFEN_SMTP_PASSWORD = "xxx"
  OFFEN_SMTP_SENDER = "xxx"
+ OFFEN_SECRET = "xxx"
+```
+
+---
+
+## Automatically updating the application via post-receive
+
+When pushing to `master`, CircleCI will relay the changes to a git repository on `analytics.offen.dev`. There, a `post-receive` hook will trigger an update of the running service via the following script:
+
+```sh
+#!/bin/bash
+set -eo pipefail
+
+while read oldrev newrev ref
+do
+    if [[ $ref =~ .*/master$ ]];
+    then
+        echo "Master ref received. Restarting docker setup now."
+        git --work-tree=/home/ubuntu/offen/deployment --git-dir=/home/ubuntu/offen/deployment.git checkout -f
+        cd /home/ubuntu/offen/deployment
+        aws s3 cp s3://offen-secrets/offen.env .
+        docker-compose pull
+        docker-compose down
+        docker-compose up -d
+        docker image prune -f
+    else
+        echo "Ref $ref successfully received. Doing nothing: only the master branch may be deployed on this server."
+    fi
+done
 ```
