@@ -22,7 +22,8 @@ jobs:
       - run:
           name: Push to deployment
           command: |
-            git push deployment master -f
+            git push deployment master -f 2>&1 | tee out.txt
+            grep -v "ERR_DEPLOYMENT_FAILED" out.txt > /dev/null
       - run:
           name: Check service health
           command: |
