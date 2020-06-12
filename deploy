@@ -1,0 +1,42 @@
+#!/bin/bash
+set -eo pipefail
+
+run_deploy () {
+  # first, pull secrets from S3
+  aws s3 cp s3://offen-secrets/offen.env .
+  # redeploy the updated docker service(s)
+  docker-compose pull
+  docker-compose down
+  docker-compose up -d
+  # this makes sure we do not keep old image layers
+  docker image prune -f
+}
+
+check_deps () {
+  if [ -z "$(which aws)" ]; then
+    echo "AWS cli not installed, cannot continue."
+    exit 1
+  fi
+
+  if [ -z "$(which docker)" ]; then
+    echo "Docker not installed, cannot continue."
+    exit 1
+  fi
+
+  set +e
+  docker info > /dev/null 2>&1; ec=$?
+  set -e
+  if [ "$ec" != "0" ]; then
+    echo "Docker daemon not running, cannot continue."
+    exit 1
+  fi
+
+  if [ -z "$(which docker-compose)" ]; then
+    echo "docker-compose not installed, cannot continue."
+    exit 1
+  fi
+}
+
+cd $(dirname $0)
+check_deps
+run_deploy

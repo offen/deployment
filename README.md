@@ -46,12 +46,7 @@ do
     then
         echo "Master ref received. Restarting docker setup now."
         git --work-tree=/home/ubuntu/offen/deployment --git-dir=/home/ubuntu/offen/deployment.git checkout -f
-        cd /home/ubuntu/offen/deployment
-        aws s3 cp s3://offen-secrets/offen.env .
-        docker-compose pull
-        docker-compose down
-        docker-compose up -d
-        docker image prune -f
+        ./home/ubuntu/offen/deployment/deploy
     else
         echo "Ref $ref successfully received. Doing nothing: only the master branch may be deployed on this server."
     fi
