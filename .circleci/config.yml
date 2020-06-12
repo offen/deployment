@@ -23,6 +23,10 @@ jobs:
           name: Push to deployment
           command: |
             git push deployment master -f
+      - run:
+          name: Check service health
+          command: |
+            curl -sS https://analytics.offen.dev/healthz
 
 workflows:
   version: 2
