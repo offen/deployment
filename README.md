@@ -46,7 +46,7 @@ do
     then
         echo "Master ref received. Updating working copy and running deploy script now."
         git --work-tree=/home/ubuntu/offen/deployment --git-dir=/home/ubuntu/offen/deployment.git checkout -f
-        /home/ubuntu/offen/deployment/deploy "s3://offen-secrets/offen.env"
+        /home/ubuntu/offen/deployment/deploy "s3://<some-s3-bucket>/offen.env"
     else
         echo "Ref $ref successfully received. Doing nothing: only the master branch may be deployed on this server."
     fi
