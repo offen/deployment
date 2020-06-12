@@ -12,7 +12,7 @@ This repository keeps the configuration we use for deploying our very own instan
 
 Key features are:
 
-- The application is able to acquire and renew its own SSL certificate using LetsEncrypt. This means we can guarantee safe transmission of data without costs or additional effort.
+- The application is able to acquire and renew its own SSL certificate using LetsEncrypt. This means we can guarantee secure transmission of data without costs or additional effort.
 - Data is persisted in a local SQLite database which performs well, is easy to backup and comes at no additional infrastructure cost.
 - Running off the docker/docker image we publish on Docker Hub, no setup other than installing Docker and configuring the application using the provided setup command is required to run a production ready application.
 
