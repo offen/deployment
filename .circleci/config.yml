@@ -5,6 +5,9 @@ jobs:
     docker:
       - image: cimg/base:2020.06
     steps:
+      - add_ssh_keys:
+          fingerprints:
+            - 'c3:09:7c:f4:a5:2c:66:45:79:53:f4:b4:ce:42:e7:bf'
       - checkout
       - run:
           name: Configure git
