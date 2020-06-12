@@ -42,13 +42,18 @@ set -eo pipefail
 
 while read oldrev newrev ref
 do
-    if [[ $ref =~ .*/master$ ]];
-    then
-        echo "Master ref received. Updating working copy and running deploy script now."
-        git --work-tree=/home/ubuntu/offen/deployment --git-dir=/home/ubuntu/offen/deployment.git checkout -f
-        /home/ubuntu/offen/deployment/deploy "s3://<some-s3-bucket>/offen.env"
-    else
-        echo "Ref $ref successfully received. Doing nothing: only the master branch may be deployed on this server."
+  if [[ $ref =~ .*/master$ ]]; then
+    echo "Master ref received. Updating working copy and running deploy script now."
+    git --work-tree=/home/ubuntu/offen/deployment --git-dir=/home/ubuntu/offen/deployment.git checkout -f
+    set +e
+    /home/ubuntu/offen/deployment/deploy "s3://<some-s3-bucket>/offen.env"; ec=$?
+    set -e
+    if [ "$ec" != "0" ]; then
+      echo "ERR_DEPLOYMENT_FAILED: deployment script exited with code $ec"
+      exit $ec
     fi
+  else
+    echo "Ref $ref successfully received. Doing nothing: only the master branch may be deployed on this server."
+  fi
 done
 ```
