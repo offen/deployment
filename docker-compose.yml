@@ -7,8 +7,7 @@ services:
     volumes:
       - db:/var/opt/offen
       - certs:/var/www/.cache
-      - /home/ubuntu/offen.env:/etc/offen/offen.env
-      - /home/ubuntu/bootstrap.yml:/root/bootstrap.yml
+      - ./offen.env:/etc/offen/offen.env
     ports:
       - 80:80
       - 443:443
