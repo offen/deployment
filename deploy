@@ -3,7 +3,7 @@ set -eo pipefail
 
 run_deploy () {
   # first, pull secrets from S3
-  aws s3 cp s3://offen-secrets/offen.env .
+  aws s3 cp $1 .
   # redeploy the updated docker service(s)
   docker-compose pull
   docker-compose down
@@ -39,4 +39,4 @@ check_deps () {
 
 cd $(dirname $0)
 check_deps
-run_deploy
+run_deploy $1
