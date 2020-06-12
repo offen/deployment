@@ -18,7 +18,7 @@ jobs:
       - run:
           name: Push to deployment
           command: |
-            git push remote master -f
+            git push deployment master -f
 
 workflows:
   version: 2
@@ -29,4 +29,3 @@ workflows:
             branches:
               only:
                 - master
-
