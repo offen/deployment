@@ -1,13 +1,17 @@
 #!/bin/bash
 set -eo pipefail
 
-run_deploy () {
-  # first, pull secrets from S3
+prepare () {
   aws s3 cp $1 .
-  # redeploy the updated docker service(s)
+}
+
+update_services () {
   docker-compose pull
   docker-compose down
   docker-compose up -d
+}
+
+cleanup () {
   # this makes sure we do not keep old image layers
   docker image prune -f
 }
@@ -39,4 +43,6 @@ check_deps () {
 
 cd $(dirname $0)
 check_deps
-run_deploy $1
+prepare $1
+update_services
+cleanup
