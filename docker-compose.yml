@@ -2,7 +2,7 @@ version: '3'
 
 services:
   offen:
-    image: offen/offen@sha256:4dce34f3657907324ec6a3367ae807cac8f09ea363208c1f05608ed69c603151
+    image: offen/offen@sha256:083a8ecc580257f4c1036e26ef7138c61ac509de59d5ba4e7476e576806fa477
     restart: on-failure
     volumes:
       - db:/var/opt/offen
