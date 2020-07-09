@@ -16,9 +16,9 @@ services:
     # By default, Docker will allow for too much memory too be allocated on
     # the 512M t3.nano that is currently in use, so the Linux kernel will
     # needlessly OOM kill the process from time to time when doing system tasks.
-    # Allowing Offen to use 384M only is sufficient for the service and the OS
-    # to reside in peace while keeping the service running.
-    mem_limit: 384M
+    # Allowing Offen to use 256M only is sufficient for the service and the OS
+    # to co-reside in peace while keeping the service running.
+    mem_limit: 256M
     logging:
       driver: awslogs
       options:
