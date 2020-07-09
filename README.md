@@ -6,7 +6,7 @@
 
 > Deployment configuration for analytics.offen.dev
 
-This repository keeps the configuration we use for deploying our very own instance of Offen at `analytics.offen.dev`, running on a bare `t2.micro` EC2 instance on AWS.
+This repository keeps the configuration we use for deploying our very own instance of Offen at `analytics.offen.dev`, running on a bare `t3.nano` EC2 instance on AWS.
 
 ---
 
