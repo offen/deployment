@@ -13,10 +13,7 @@ services:
       - 443:443
     environment:
       OFFEN_SERVER_AUTOTLS: 'analytics.offen.dev,offen.frederikring.com,offen.taell.me,offen.niefeld.com'
-    deploy:
-      resources:
-        limits:
-          memory: 256M
+    mem_limit: 384M
     logging:
       driver: awslogs
       options:
