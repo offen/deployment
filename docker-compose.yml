@@ -12,7 +12,7 @@ services:
       - 80:80
       - 443:443
     environment:
-      OFFEN_SERVER_AUTOTLS: 'analytics.offen.dev,offen.frederikring.com,offen.taell.me,offen.niefeld.com'
+      OFFEN_SERVER_AUTOTLS: 'analytics.offen.dev,offen.offen.dev,offen.frederikring.com,offen.taell.me,offen.niefeld.com'
     logging:
       driver: awslogs
       options:
