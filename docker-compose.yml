@@ -10,6 +10,11 @@ services:
     volumes:
       - caddy_data:/data
       - ./Caddyfile:/etc/caddy/Caddyfile
+    logging: &cloudwatch_logs
+      driver: awslogs
+      options:
+        awslogs-region: eu-central-1
+        awslogs-group: production
   offen:
     image: offen/offen@sha256:21fe8be6027863af5a475bcdd7cd2d01d137cf5722569d825f58cc3f77c081bd
     restart: on-failure
@@ -17,10 +22,7 @@ services:
       - db:/var/opt/offen
       - ./offen.env:/etc/offen/offen.env
     logging:
-      driver: awslogs
-      options:
-        awslogs-region: eu-central-1
-        awslogs-group: production
+      <<: *cloudwatch_logs
 
 volumes:
   db:
