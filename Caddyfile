@@ -1,0 +1,3 @@
+analytics.offen.dev, offen.offen.dev, offen.frederikring.com, offen.taell.me, offen.niefeld.com {
+  reverse_proxy offen:80
+}

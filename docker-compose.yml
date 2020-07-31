@@ -1,18 +1,18 @@
 version: '2.3'
 
 services:
+  proxy:
+    image: caddy:2.1.1-alpine
+    restart: on-failure
+    volumes:
+      caddy_data:/data
+      ./Caddyfile:/etc/caddy/Caddyfile
   offen:
     image: offen/offen@sha256:21fe8be6027863af5a475bcdd7cd2d01d137cf5722569d825f58cc3f77c081bd
     restart: on-failure
     volumes:
       - db:/var/opt/offen
-      - certs:/var/www/.cache
       - ./offen.env:/etc/offen/offen.env
-    ports:
-      - 80:80
-      - 443:443
-    environment:
-      OFFEN_SERVER_AUTOTLS: 'analytics.offen.dev,offen.offen.dev,offen.frederikring.com,offen.taell.me,offen.niefeld.com'
     logging:
       driver: awslogs
       options:
@@ -21,4 +21,4 @@ services:
 
 volumes:
   db:
-  certs:
+  caddy_data:
