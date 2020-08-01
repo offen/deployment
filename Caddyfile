@@ -1,3 +1,0 @@
-analytics.offen.dev, offen.offen.dev, offen.frederikring.com {
-  reverse_proxy offen:80
-}
