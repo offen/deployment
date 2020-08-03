@@ -4,9 +4,9 @@
 
 # Deployment
 
-> Deployment configuration for analytics.offen.dev
+> Deployment configuration for offen.offen.dev
 
-This repository keeps the configuration we use for deploying our very own instance of Offen at `analytics.offen.dev`, running on a bare `t3.micro` EC2 instance on AWS.
+This repository keeps the configuration we use for deploying our very own instance of Offen at `offen.offen.dev`, running on a bare `t3.micro` EC2 instance on AWS.
 
 ---
 
@@ -34,7 +34,7 @@ The `offen.env` file referenced in the compose file is not included in this repo
 
 ## Automatically updating the application via post-receive
 
-When pushing to `master`, CircleCI will relay the changes to a git repository on `analytics.offen.dev`. There, a `post-receive` hook will trigger an update of the running service via the following script:
+When pushing to `master`, CircleCI will relay the changes to a git repository on `offen.offen.dev`. There, a `post-receive` hook will trigger an update of the running service via the following script:
 
 ```sh
 #!/bin/bash
