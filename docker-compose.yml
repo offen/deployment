@@ -13,11 +13,6 @@ services:
       - certs:/var/www/.cache
       - db:/var/opt/offen
       - ./offen.env:/etc/offen/offen.env
-    logging:
-      driver: awslogs
-      options:
-        awslogs-region: eu-central-1
-        awslogs-group: production
 
 volumes:
   db:

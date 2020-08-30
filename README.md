@@ -6,7 +6,7 @@
 
 > Deployment configuration for offen.offen.dev
 
-This repository keeps the configuration we use for deploying our very own instance of Offen at `offen.offen.dev`, running on a bare `t3.micro` EC2 instance on AWS.
+This repository keeps the configuration we use for deploying our very own instance of Offen at `offen.offen.dev`, running on a bare `CX11` instance at Hetzner.
 
 ---
 
