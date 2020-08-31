@@ -26,6 +26,7 @@ services:
       AWS_DEFAULT_REGION: eu-central-1
       AWS_S3_BUCKET_NAME: offen-db-backups
       BACKUP_CRON_EXPRESSION: '0 2 * * *'
+      BACKUP_FILENAME: offen-offen-dev.tar.gz
     env_file: ./offen.env
     logging: *default_syslog
     volumes:
