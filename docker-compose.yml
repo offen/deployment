@@ -24,11 +24,12 @@ services:
     image: futurice/docker-volume-backup
     environment:
       AWS_DEFAULT_REGION: eu-central-1
-      AWS_S3_BUCKET_NAME: offen-db-backup
+      AWS_S3_BUCKET_NAME: offen-db-backups
       BACKUP_CRON_EXPRESSION: '0 2 * * *'
     env_file: ./offen.env
     logging: *default_syslog
     volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
       - db:/backup/offen-db:ro
 
 volumes:
