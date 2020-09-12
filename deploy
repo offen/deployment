@@ -17,26 +17,19 @@ cleanup () {
 }
 
 check_deps () {
-  if [ -z "$(which aws)" ]; then
-    echo "AWS cli not installed, cannot continue."
-    exit 1
-  fi
-
-  if [ -z "$(which docker)" ]; then
-    echo "Docker not installed, cannot continue."
-    exit 1
-  fi
+  local deps=("aws" "docker" "docker-compose")
+  for dep in $deps; do
+    if [ -z "$(which $dep)" ]; then
+      echo "This script requires $dep, which is not installed. Cannot continue."
+      exit 1
+    fi
+  done
 
   set +e
   docker info > /dev/null 2>&1; ec=$?
   set -e
   if [ "$ec" != "0" ]; then
     echo "Docker daemon not running, cannot continue."
-    exit 1
-  fi
-
-  if [ -z "$(which docker-compose)" ]; then
-    echo "docker-compose not installed, cannot continue."
     exit 1
   fi
 }
