@@ -19,7 +19,7 @@ cleanup () {
 check_deps () {
   local deps=("aws" "docker" "docker-compose")
   for dep in $deps; do
-    if [ -z "$(which $dep)" ]; then
+    if [ ! -x "$(which $dep)" ]; then
       echo "This script requires $dep, which is not installed. Cannot continue."
       exit 1
     fi
