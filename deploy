@@ -2,7 +2,7 @@
 set -eo pipefail
 
 prepare () {
-  aws --profile offen --endpoint-url https://storage.offen.dev s3 cp $1 .
+  aws --profile storage --endpoint-url https://storage.offen.dev s3 cp $1 .
 }
 
 update_services () {
