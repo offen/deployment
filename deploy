@@ -2,7 +2,9 @@
 set -eo pipefail
 
 prepare () {
-  aws --profile storage --endpoint-url https://storage.offen.dev s3 cp $1 .
+  for file in "$@"; do
+    aws --profile storage --endpoint-url https://storage.offen.dev s3 cp $file .
+  done
 }
 
 update_services () {
@@ -36,6 +38,6 @@ check_deps () {
 
 cd $(dirname $0)
 check_deps
-prepare $1
+prepare "$@"
 update_services
 cleanup
