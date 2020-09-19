@@ -35,6 +35,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - db:/backup/offen-db:ro
 
+  expire:
+    build:
+      context: ./expire
+    restart: always
+    env_file: ./backup.env
+    logging: *default_syslog
+
 volumes:
   db:
   certs:
