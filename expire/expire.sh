@@ -1,4 +1,4 @@
-#!/usr/bin/env ash
+#!/usr/bin/env sh
 
 set -eo pipefail
 
@@ -8,7 +8,7 @@ PATH="$PATH:/usr/local/bin"
 export MC_HOST_offen="https://${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}@storage.offen.dev"
 
 backup_count=$(mc ls offen/db-backups | wc -l)
-if [[ "$backup_count" -le "$limit" ]]; then
+if [ "$backup_count" -le "$limit" ]; then
   echo "Backup bucket contains ${backup_count} item(s) only, skipping because a limit of ${limit} was set"
   exit 0
 fi
