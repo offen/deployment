@@ -14,11 +14,10 @@ Key features are:
 
 - The application is able to acquire and renew its own SSL certificate using LetsEncrypt. This means we can guarantee secure transmission of data without costs or additional effort.
 - Data is persisted in a local SQLite database which performs well, is easy to backup and comes at no additional infrastructure cost.
+- The Docker volume containing the database file is automatically backed up each day. Old backups are pruned automatically.
 - Running off the docker/docker image we publish on Docker Hub, no setup other than installing Docker and configuring the application using the provided setup command is required to run a production ready application.
 
 ---
-
-`docker-compose` is not strictly necessary in this case, but it frees us from handling unwieldy multiline `docker run` commands.
 
 The `offen.env` file referenced in the compose file is not included in this repository as it contains secrets. The keys it contains are:
 
@@ -29,6 +28,8 @@ The `offen.env` file referenced in the compose file is not included in this repo
  OFFEN_SMTP_SENDER = "xxx"
  OFFEN_SECRET = "xxx"
 ```
+
+`backup.env` contains credentials for MinIO / AWS S3.
 
 ---
 
@@ -46,7 +47,7 @@ do
     echo "Master ref received. Updating working copy and running deploy script now."
     git --work-tree=/home/ubuntu/offen/deployment --git-dir=/home/ubuntu/offen/deployment.git checkout -f
     set +e
-    /home/ubuntu/offen/deployment/deploy "s3://<some-s3-bucket>/offen.env"; ec=$?
+    /home/ubuntu/offen/deployment/deploy "s3://<some-s3-bucket>/offen.env" "s3://<some-s3-bucket>/backup.env"; ec=$?
     set -e
     if [ "$ec" != "0" ]; then
       echo "ERR_DEPLOYMENT_FAILED: deployment script exited with code $ec"
