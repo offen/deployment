@@ -1,3 +1,6 @@
+# Copyright 2020 - Offen Authors <hioffen@posteo.de>
+# SPDX-License-Identifier: MIT
+
 FROM alpine:3.12
 
 WORKDIR /root
