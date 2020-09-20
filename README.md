@@ -4,13 +4,26 @@
 
 # Deployment
 
-> Deployment configuration for offen.offen.dev
-
 This repository keeps the configuration we use for deploying our very own instance of Offen at `offen.offen.dev`, running on a bare `CX11` instance at Hetzner. You can use it as a template for a similar setup.
+
+## Quickstart
+
+Clone the repository:
+
+```sh
+git clone git@github.com:offen/deployment.git
+cd deployment
+```
+
+Create an `offen.env` and a `backup.env` file with your desired config (see below for expected values). Now you are ready to start the setup:
+
+```sh
+./deploy.sh
+```
 
 ---
 
-Key features are:
+## Key features
 
 - The setup is able to acquire and renew its own SSL certificate using LetsEncrypt. Secure transmission of data comes without costs or additional effort.
 - Data is persisted in a local SQLite database which performs well, is easy to backup and incurs no additional infrastructure costs.
@@ -19,31 +32,35 @@ Key features are:
 
 ---
 
+## Configuration
+
 The `offen.env` file referenced in the compose file is not included in this repository as it contains secrets. The keys it contains are:
 
 ```
-OFFEN_SECRET = "<xxx>"
-OFFEN_SMTP_HOST = "<xxx>"
-OFFEN_SMTP_USER = "<xxx>"
-OFFEN_SMTP_PASSWORD = "<xxx>"
-OFFEN_SMTP_SENDER = "noreply@offen.dev"
-OFFEN_SERVER_AUTOTLS="offen.offen.dev"
+OFFEN_SECRET=<xxx>
+OFFEN_SMTP_HOST=<xxx>
+OFFEN_SMTP_USER=<xxx>
+OFFEN_SMTP_PASSWORD=<xxx>
+OFFEN_SMTP_SENDER=noreply@offen.dev
+OFFEN_SERVER_AUTOTLS=offen.offen.dev
 ```
 
 `backup.env` contains credentials for MinIO / AWS S3:
 
 ```
-AWS_ACCESS_KEY_ID="<xxx>"
-AWS_SECRET_ACCESS_KEY="<xxx>"
-AWS_ENDPOINT="<xxx>"
-AWS_DEFAULT_REGION="<xxx>"
-AWS_S3_BUCKET_NAME="<xxx>"
-AWS_EXTRA_ARGS="--endpoint https://${AWS_ENDPOINT}"
+AWS_ACCESS_KEY_ID=<xxx>
+AWS_SECRET_ACCESS_KEY=<xxx>
+AWS_ENDPOINT=<xxx>
+AWS_DEFAULT_REGION=<xxx>
+AWS_S3_BUCKET_NAME=<xxx>
+AWS_EXTRA_ARGS=--endpoint https://${AWS_ENDPOINT}
 ```
 
 ---
 
 ## Automatically updating the setup via post-receive
+
+As we update Offen on a rolling basis to keep up with development, we use a remote git repository on the VPS to handle updates.
 
 When pushing to `master`, CircleCI will relay the changes to a git repository on `offen.offen.dev`. There, a `post-receive` hook will trigger an update of the running service via the following script:
 
