@@ -3,14 +3,17 @@
 # Copyright 2020 - Offen Authors <hioffen@posteo.de>
 # SPDX-License-Identifier: MIT
 
-set -e
+set -eo pipefail
 
 bucket=$1
 limit=${2:-7}
 
-PATH="$PATH:/usr/local/bin"
-
 export MC_HOST_backups="https://${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}@${AWS_ENDPOINT}"
+
+if [ -z "$bucket" ]; then
+  echo "Expected bucket name to be given as first positional argument, received none"
+  exit 1
+fi
 
 backup_count=$(mc ls "backups/$bucket" | wc -l)
 if [ "$backup_count" -le "$limit" ]; then
