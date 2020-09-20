@@ -15,7 +15,14 @@ git clone git@github.com:offen/deployment.git
 cd deployment
 ```
 
-Create an `offen.env` and a `backup.env` file with your desired config (see below for expected values). Now you are ready to start the setup:
+Create an `offen.env` and a `backup.env` file by copying the template files:
+
+```sh
+cp offen.env.template offen.env
+cp backup.env.template backup.env
+```
+
+Once you have populated these files with your specific config, you are ready to start the setup:
 
 ```sh
 ./deploy.sh
@@ -27,14 +34,14 @@ Create an `offen.env` and a `backup.env` file with your desired config (see belo
 
 - The setup is able to acquire and renew its own SSL certificate using LetsEncrypt. Secure transmission of data comes without costs or additional effort.
 - Data is persisted in a local SQLite database which performs well, is easy to backup and incurs no additional infrastructure costs.
-- The Docker volume containing the database file is automatically backed up each day. Old backups are pruned automatically.
+- The Docker volume containing the database file is automatically backed up to a S3 compatible storage each day. Old backups are pruned automatically.
 - Running off the docker/docker image we publish on Docker Hub, no setup other than installing Docker and docker-compose is required to run a production ready application.
 
 ---
 
 ## Configuration
 
-The `offen.env` file referenced in the compose file is not included in this repository as it contains secrets. The keys it contains are:
+The `offen.env` file referenced in the compose file is ignored in this repository as it contains secrets. The keys it contains are:
 
 ```
 OFFEN_SECRET="<xxx>"
@@ -42,22 +49,25 @@ OFFEN_SMTP_HOST="<xxx>"
 OFFEN_SMTP_USER="<xxx>"
 OFFEN_SMTP_PASSWORD="<xxx>"
 OFFEN_SMTP_SENDER="noreply@offen.dev"
-OFFEN_SERVER_AUTOTLS="offen.offen.dev"
+OFFEN_SERVER_AUTOTLS="offen.offen.dev,analytics.offen.dev,offen.frederikring.com"
 ```
+
+Full documentation for these values is found in the [Offen docs][docs].
 
 `backup.env` contains credentials for MinIO / AWS S3:
 
 ```
 AWS_ACCESS_KEY_ID="<xxx>"
 AWS_SECRET_ACCESS_KEY="<xxx>"
-AWS_ENDPOINT="<xxx>"
 AWS_DEFAULT_REGION="<xxx>"
 AWS_S3_BUCKET_NAME="<xxx>"
+AWS_ENDPOINT="<xxx>"
 AWS_EXTRA_ARGS="--endpoint https://${AWS_ENDPOINT}"
 ```
 
 If you are [experiencing issues with values being double quoted][quotes-issue], make sure to check if your `docker-compose` version is up to date.
 
+[docs]: https://docs.offen.dev/running-offen/configuring-the-application/
 [quotes-issue]: https://github.com/docker/compose/issues/2854
 
 ---
