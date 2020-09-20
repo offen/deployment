@@ -4,7 +4,7 @@
 
 # Deployment
 
-This repository keeps the configuration we use for deploying our very own instance of Offen at `offen.offen.dev`, running on a bare `CX11` instance at Hetzner. You can use it as a template for a similar setup.
+This repository keeps the configuration we use for deploying our very own instance of Offen at `offen.offen.dev` using Docker and docker-compose, running on a bare `CX11` instance at Hetzner. You can use it as a template for a similar setup.
 
 ## Quickstart
 
@@ -37,24 +37,28 @@ Create an `offen.env` and a `backup.env` file with your desired config (see belo
 The `offen.env` file referenced in the compose file is not included in this repository as it contains secrets. The keys it contains are:
 
 ```
-OFFEN_SECRET=<xxx>
-OFFEN_SMTP_HOST=<xxx>
-OFFEN_SMTP_USER=<xxx>
-OFFEN_SMTP_PASSWORD=<xxx>
-OFFEN_SMTP_SENDER=noreply@offen.dev
-OFFEN_SERVER_AUTOTLS=offen.offen.dev
+OFFEN_SECRET="<xxx>"
+OFFEN_SMTP_HOST="<xxx>"
+OFFEN_SMTP_USER="<xxx>"
+OFFEN_SMTP_PASSWORD="<xxx>"
+OFFEN_SMTP_SENDER="noreply@offen.dev"
+OFFEN_SERVER_AUTOTLS="offen.offen.dev"
 ```
 
 `backup.env` contains credentials for MinIO / AWS S3:
 
 ```
-AWS_ACCESS_KEY_ID=<xxx>
-AWS_SECRET_ACCESS_KEY=<xxx>
-AWS_ENDPOINT=<xxx>
-AWS_DEFAULT_REGION=<xxx>
-AWS_S3_BUCKET_NAME=<xxx>
-AWS_EXTRA_ARGS=--endpoint https://${AWS_ENDPOINT}
+AWS_ACCESS_KEY_ID="<xxx>"
+AWS_SECRET_ACCESS_KEY="<xxx>"
+AWS_ENDPOINT="<xxx>"
+AWS_DEFAULT_REGION="<xxx>"
+AWS_S3_BUCKET_NAME="<xxx>"
+AWS_EXTRA_ARGS="--endpoint https://${AWS_ENDPOINT}"
 ```
+
+If you are [experiencing issues with values being double quoted][quotes-issue], make sure to check if your `docker-compose` version is up to date.
+
+[quotes-issue]: https://github.com/docker/compose/issues/2854
 
 ---
 
