@@ -27,6 +27,7 @@ The `offen.env` file referenced in the compose file is not included in this repo
  OFFEN_SMTP_PASSWORD = "xxx"
  OFFEN_SMTP_SENDER = "xxx"
  OFFEN_SECRET = "xxx"
+ OFFEN_SERVER_AUTOTLS="offen.offen.dev"
 ```
 
 `backup.env` contains credentials for MinIO / AWS S3.

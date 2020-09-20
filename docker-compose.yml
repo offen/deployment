@@ -10,12 +10,10 @@ services:
     ports:
       - 80:80
       - 443:443
-    environment:
-      OFFEN_SERVER_AUTOTLS: 'offen.offen.dev,offen.frederikring.com,analytics.offen.dev'
+    env_file: ./offen.env
     volumes:
       - certs:/var/www/.cache
       - db:/var/opt/offen
-      - ./offen.env:/etc/offen/offen.env
     logging: &default_syslog
       driver: syslog
       options:
