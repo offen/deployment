@@ -25,11 +25,8 @@ services:
     image: futurice/docker-volume-backup@sha256:b2e6e796ad54853afa54dc474da8db2f24a6f45ba46781feb15500df2a3c1b5d
     restart: always
     environment:
-      AWS_DEFAULT_REGION: us-east-1
-      AWS_S3_BUCKET_NAME: db-backups
-      AWS_EXTRA_ARGS: '--endpoint https://storage.offen.dev'
       BACKUP_CRON_EXPRESSION: '0 2 * * *'
-      BACKUP_FILENAME: offen-offen-dev-%Y-%m-%dT%H-%M-%S.tar.gz
+      BACKUP_FILENAME: offen-db-%Y-%m-%dT%H-%M-%S.tar.gz
     env_file: ./backup.env
     logging: *default_syslog
     volumes:

@@ -5,12 +5,6 @@
 
 set -eo pipefail
 
-prepare () {
-  for file in "$@"; do
-    aws --profile storage --endpoint-url https://storage.offen.dev s3 cp $file .
-  done
-}
-
 update_services () {
   docker-compose pull
   docker-compose build
@@ -23,7 +17,7 @@ cleanup () {
 }
 
 check_deps () {
-  local deps=("aws" "docker" "docker-compose")
+  local deps=("docker" "docker-compose")
   for dep in "${deps[@]}"; do
     if [ ! -x "$(which $dep)" ]; then
       echo "This script requires $dep, which is not installed. Cannot continue."
@@ -42,6 +36,5 @@ check_deps () {
 
 cd $(dirname $0)
 check_deps
-prepare "$@"
 update_services
 cleanup
