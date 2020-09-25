@@ -9,11 +9,11 @@ update_services () {
   docker-compose pull
   docker-compose build
   docker-compose up -d
+  docker image prune -f
 }
 
-cleanup () {
-  # this makes sure we do not keep old image layers
-  docker image prune -f
+validate () {
+  docker-compose config -q
 }
 
 check_deps () {
@@ -36,5 +36,5 @@ check_deps () {
 
 cd $(dirname $0)
 check_deps
+validate
 update_services
-cleanup
