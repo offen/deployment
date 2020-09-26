@@ -12,14 +12,14 @@ update_services () {
   docker image prune -f
 }
 
-validate () {
+validate_config () {
   docker-compose config -q
 }
 
 check_deps () {
   local deps=("docker" "docker-compose")
   for dep in "${deps[@]}"; do
-    if [ ! -x "$(which $dep)" ]; then
+    if [ ! "$(command -v $dep)" ]; then
       echo "This script requires $dep, which is not installed. Cannot continue."
       exit 1
     fi
@@ -30,11 +30,11 @@ check_deps () {
   set -e
   if [ "$ec" != "0" ]; then
     echo "Docker daemon not running, cannot continue."
-    exit 1
+    exit "$ec"
   fi
 }
 
 cd $(dirname $0)
 check_deps
-validate
+validate_config
 update_services
