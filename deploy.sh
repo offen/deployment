@@ -5,15 +5,20 @@
 
 set -eo pipefail
 
+flags="-f docker-compose.yml"
+for arg in "$@"; do
+  flags="$flags -f docker-compose.${arg}.yml"
+done
+
 update_services () {
-  docker-compose pull
-  docker-compose build
-  docker-compose up -d
+  docker-compose $flags pull
+  docker-compose $flags build
+  docker-compose $flags up -d
   docker image prune -f
 }
 
 validate_config () {
-  docker-compose config -q
+  docker-compose $flags config -q
 }
 
 check_deps () {

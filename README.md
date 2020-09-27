@@ -6,6 +6,13 @@
 
 This repository keeps the configuration we use for deploying our very own instance of Offen at `offen.offen.dev` using Docker and docker-compose, running on a bare `CX11` instance at Hetzner. You can use it as a template for a similar setup.
 
+## Key features
+
+- The setup is able to acquire and renew its own SSL certificate using LetsEncrypt. Secure transmission of data comes without costs or additional effort.
+- Data is persisted in a local SQLite database which performs well, is easy to backup and incurs no additional infrastructure costs.
+- The Docker volume containing the database file is automatically backed up to a S3 compatible storage each day. Old backups are pruned automatically.
+- Running off the `offen/offen` image we publish on Docker Hub, no setup other than installing Docker and docker-compose is required to run a production ready application.
+
 ## Quickstart
 
 Clone the repository:
@@ -15,11 +22,10 @@ git clone git@github.com:offen/deployment.git
 cd deployment
 ```
 
-Create an `offen.env` and a `backup.env` file by copying the template files:
+Create an `offen.env` file by copying the template file:
 
 ```sh
 cp offen.env.template offen.env
-cp backup.env.template backup.env
 ```
 
 Once you have populated these files with your specific config, you are ready to start the setup:
@@ -28,42 +34,39 @@ Once you have populated these files with your specific config, you are ready to 
 ./deploy.sh
 ```
 
----
+## Adding backup
 
-## Key features
+If you want to regularly back up your database file to an S3 compatible storage, you can use the provided `backup` service. Create an `backup.env` file by copying the the template file:
 
-- The setup is able to acquire and renew its own SSL certificate using LetsEncrypt. Secure transmission of data comes without costs or additional effort.
-- Data is persisted in a local SQLite database which performs well, is easy to backup and incurs no additional infrastructure costs.
-- The Docker volume containing the database file is automatically backed up to a S3 compatible storage each day. Old backups are pruned automatically.
-- Running off the docker/docker image we publish on Docker Hub, no setup other than installing Docker and docker-compose is required to run a production ready application.
+```sh
+cp backup.env.template backup.env
+```
+
+Once populated, start the setup passing a `backup` argument:
+
+```sh
+./deploy.sh backup
+```
+
+## Automatically expiring old backups
+
+This setup also can automatically delete old backups from your storage. To enable this feature, start the setup passing `expire`:
+
+```sh
+./deploy.sh backup expire
+```
+
+You can also run this manually if you prefer not to have the container handle this for you:
+
+```sh
+docker-compose -f docker-compose.expire.yml run --entrypoint expire --rm  expire $AWS_S3_BUCKET_NAME $BACKUP_RETENTION
+```
 
 ---
 
 ## Configuration
 
-The `offen.env` file referenced in the compose file is ignored in this repository as it contains secrets. The keys it contains are:
-
-```
-OFFEN_SECRET="<xxx>"
-OFFEN_SMTP_HOST="<xxx>"
-OFFEN_SMTP_USER="<xxx>"
-OFFEN_SMTP_PASSWORD="<xxx>"
-OFFEN_SMTP_SENDER="noreply@offen.dev"
-OFFEN_SERVER_AUTOTLS="offen.offen.dev,analytics.offen.dev,offen.frederikring.com"
-```
-
-Full documentation for these values is found in the [Offen docs][docs].
-
-`backup.env` contains credentials for MinIO / AWS S3:
-
-```
-AWS_ACCESS_KEY_ID="<xxx>"
-AWS_SECRET_ACCESS_KEY="<xxx>"
-AWS_DEFAULT_REGION="<xxx>"
-AWS_S3_BUCKET_NAME="<xxx>"
-AWS_ENDPOINT="<xxx>"
-AWS_EXTRA_ARGS="--endpoint https://${AWS_ENDPOINT}"
-```
+The `offen.env` and `backup.env` files referenced in the compose files are ignored in this repository as they contain secrets. Refer to the template files for what values are expected. Full documentation for these values is found in the [Offen docs][docs].
 
 If you are [experiencing issues with values being double quoted][quotes-issue], make sure to check if your `docker-compose` version is up to date.
 
@@ -92,7 +95,7 @@ do
     echo "Master ref received. Updating working copy and running deploy script now."
     git --work-tree=/root/offen/deployment --git-dir=/root/offen/deployment.git checkout -f
     set +e
-    (cd /root/offen/deployment && prepare && ./deploy.sh); ec=$?
+    (cd /root/offen/deployment && prepare && ./deploy.sh backup expire); ec=$?
     set -e
     if [ "$ec" != "0" ]; then
       echo "ERR_DEPLOYMENT_FAILED: deployment script exited with code $ec"
