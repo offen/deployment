@@ -4,14 +4,14 @@
 
 # Deployment
 
-This repository keeps the configuration we use for deploying our very own instance of Offen at `offen.offen.dev` using Docker and docker-compose, running on a bare `CX11` instance at Hetzner. You can use it as a template for a similar setup.
+This repository keeps the configuration we use for deploying our own instance of Offen at `offen.offen.dev` using Docker and docker-compose, running on a bare `CX11` instance at Hetzner. It is designed as a template for you to use in a similar setup.
 
 ## Key features
 
-- The setup is able to acquire and renew its own SSL certificate using LetsEncrypt. Secure transmission of data comes without costs or additional effort.
-- Data is persisted in a local SQLite database which performs well, is easy to backup and incurs no additional infrastructure costs.
-- The Docker volume containing the database file is automatically backed up to a S3 compatible storage each day. Old backups are pruned automatically.
 - Running off the `offen/offen` image we publish on Docker Hub, no setup other than installing Docker and docker-compose is required to run a production ready application.
+- Data is persisted in a local SQLite database which performs well, is easy to backup and incurs no additional infrastructure costs.
+- The setup is able to acquire and renew its own SSL certificate using LetsEncrypt. Secure transmission of data comes without costs or additional effort.
+- The Docker volume containing the database file is automatically backed up to a S3 compatible storage each day. Old backups are pruned automatically.
 
 ## Quickstart
 
@@ -34,7 +34,7 @@ Once you have populated these files with your specific config, you are ready to 
 ./deploy.sh
 ```
 
-## Adding backup
+## Adding automated database backups
 
 If you want to regularly back up your database file to an S3 compatible storage, you can use the provided `backup` service. Create an `backup.env` file by copying the the template file:
 
