@@ -4,7 +4,7 @@
 
 # Deployment
 
-This repository keeps the configuration we use for deploying our own instance of Offen at `offen.offen.dev` using Docker and docker-compose, running on a bare `CX11` instance at Hetzner. It is designed as a template for you to use in a similar setup.
+This repository contains the configuration we use for deploying our own instance of Offen at `offen.offen.dev` using Docker and docker-compose, running on a bare `CX11` instance at Hetzner. It is designed as a template for you to use in a similar setup.
 
 ## Key features
 
@@ -15,7 +15,7 @@ This repository keeps the configuration we use for deploying our own instance of
 
 ## Quickstart
 
-Clone the repository:
+Make sure you have Docker and docker-compose installed. Next, clone the repository:
 
 ```sh
 git clone git@github.com:offen/deployment.git
@@ -28,7 +28,7 @@ Create an `offen.env` file by copying the template file:
 cp offen.env.template offen.env
 ```
 
-Once you have populated these files with your specific config, you are ready to start the setup:
+Once you have populated the file with your specific config, you are ready to start the setup:
 
 ```sh
 ./deploy.sh
@@ -42,7 +42,9 @@ If you want to regularly back up your database file to an S3 compatible storage,
 cp backup.env.template backup.env
 ```
 
-Once populated, start the setup passing a `backup` argument:
+The backup currently runs once a day at 2AM UTC. You can change this schedule in `docker-compose.backup.yml`.
+
+Once populated, start the setup passing an additional `backup` argument:
 
 ```sh
 ./deploy.sh backup
@@ -50,13 +52,15 @@ Once populated, start the setup passing a `backup` argument:
 
 ## Automatically expiring old backups
 
-This setup also can automatically delete old backups from your storage. To enable this feature, start the setup passing `expire`:
+This deployment setup can also handle automatic deletion of old backups from your storage. To enable this feature, start the setup passing `expire`:
 
 ```sh
 ./deploy.sh backup expire
 ```
 
-You can also run this manually if you prefer not to have the container handle this for you:
+The backup currently runs once a day at 2:30AM UTC. You can change this schedule in `expire/crontab.txt`.
+
+You can also run this command manually if you prefer not to have the container handle this for you:
 
 ```sh
 docker-compose -f docker-compose.expire.yml run --entrypoint expire --rm  expire $AWS_S3_BUCKET_NAME $BACKUP_RETENTION
@@ -79,7 +83,7 @@ If you are [experiencing issues with values being double quoted][quotes-issue], 
 
 As we update Offen on a rolling basis to keep up with development, we use a remote git repository on the VPS to handle updates.
 
-When pushing to `master`, CircleCI will relay the changes to a git repository on `offen.offen.dev`. There, a `post-receive` hook will trigger an update of the running service via the following script:
+When pushing to `master`, CI will relay the changes to a git repository on `offen.offen.dev`. There, a `post-receive` hook will trigger an update of the running service via the following script:
 
 ```sh
 #!/bin/bash
