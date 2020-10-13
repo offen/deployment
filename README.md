@@ -95,7 +95,7 @@ prepare () {
 
 while read oldrev newrev ref
 do
-  if [[ $ref =~ .*/master$ ]]; then
+  if [[ $ref =~ .*/offen-offen-dev$ ]]; then
     echo "Master ref received. Updating working copy and running deploy script now."
     git --work-tree=/root/offen/deployment --git-dir=/root/offen/deployment.git checkout -f
     set +e
@@ -106,7 +106,7 @@ do
       exit $ec
     fi
   else
-    echo "Ref $ref successfully received. Doing nothing: only the master branch may be deployed on this server."
+    echo "Ref $ref successfully received. Doing nothing: only the offen-offen-dev branch may be deployed on this server."
   fi
 done
 ```
