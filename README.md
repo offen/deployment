@@ -83,7 +83,7 @@ If you are [experiencing issues with values being double quoted][quotes-issue], 
 
 As we update Offen on a rolling basis to keep up with development, we use a remote git repository on the VPS to handle updates.
 
-When pushing to `master`, CI will relay the changes to a git repository on `offen.offen.dev`. There, a `post-receive` hook will trigger an update of the running service via the following script:
+When pushing to `offen-offen-dev`, CI will relay the changes to a git repository on `offen.offen.dev`. There, a `post-receive` hook will trigger an update of the running service via the following script:
 
 ```sh
 #!/bin/bash
@@ -97,7 +97,7 @@ while read oldrev newrev ref
 do
   if [[ $ref =~ .*/offen-offen-dev$ ]]; then
     echo "Master ref received. Updating working copy and running deploy script now."
-    git --work-tree=/root/offen/deployment --git-dir=/root/offen/deployment.git checkout -f
+    git --work-tree=/root/offen/deployment --git-dir=/root/offen/deployment.git checkout -f "$ref"
     set +e
     (cd /root/offen/deployment && prepare && ./deploy.sh backup expire); ec=$?
     set -e
