@@ -42,7 +42,7 @@ If you want to regularly back up your database file to an S3 compatible storage,
 cp backup.env.template backup.env
 ```
 
-The backup currently runs once a day at 2AM UTC. You can change this schedule in `docker-compose.backup.yml`.
+The backup currently runs once a day at 02:00 UTC. You can change this schedule in `docker-compose.backup.yml`.
 
 Once populated, start the setup passing an additional `backup` argument:
 
@@ -58,7 +58,7 @@ This deployment setup can also handle automatic deletion of old backups from you
 ./deploy.sh backup expire
 ```
 
-The backup currently runs once a day at 2:30AM UTC. You can change this schedule in `expire/crontab.txt`.
+The expire script currently runs once a day at 02:30 UTC. If needed, you can change this schedule in `expire/crontab.txt`.
 
 You can also run this command manually if you prefer not to have the container handle this for you:
 
