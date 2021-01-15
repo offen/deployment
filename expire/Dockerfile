@@ -1,7 +1,7 @@
-# Copyright 2020 - Offen Authors <hioffen@posteo.de>
+# Copyright 2021 - Offen Authors <hioffen@posteo.de>
 # SPDX-License-Identifier: MIT
 
-FROM alpine:3.12
+FROM alpine:3.13
 
 WORKDIR /root
 RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc && \
