@@ -50,6 +50,8 @@ Once populated, start the setup passing an additional `backup` argument:
 ./deploy.sh backup
 ```
 
+If you want to encrypt your backups using GPG, provide a `GPG_PASSPHRASE` in `backup.env`.
+
 ## Automatically expiring old backups
 
 This deployment setup can also handle automatic deletion of old backups from your storage. To enable this feature, start the setup passing `expire`:
