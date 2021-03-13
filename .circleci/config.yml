@@ -27,7 +27,7 @@ jobs:
       - run:
           name: Check service health
           command: |
-            curl -sS https://offen.offen.dev/healthz
+            curl -sfS https://offen.offen.dev/healthz
 
 workflows:
   version: 2
