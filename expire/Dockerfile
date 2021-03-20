@@ -16,3 +16,5 @@ RUN chmod +x expire.sh && mv expire.sh /usr/bin/expire
 RUN /usr/bin/crontab /home/expire/crontab.txt
 
 ENTRYPOINT ["/usr/sbin/crond", "-f", "-l", "8"]
+
+USER expire
