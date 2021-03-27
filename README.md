@@ -11,7 +11,7 @@ This repository contains the configuration we use for deploying our own instance
 - Running off the `offen/offen` image we publish on Docker Hub, no setup other than installing Docker and docker-compose is required to run a production ready application.
 - Data is persisted in a local SQLite database which performs well, is easy to backup and incurs no additional infrastructure costs.
 - The setup is able to acquire and renew its own SSL certificate using LetsEncrypt. Secure transmission of data comes without costs or additional effort.
-- The Docker volume containing the database file is automatically backed up to a S3 compatible storage each day. Old backups are pruned automatically.
+- The Docker volume containing the database file is automatically backed up to a S3 compatible storage each day. Old backups can be pruned automatically.
 
 ## Quickstart
 
@@ -52,21 +52,9 @@ Once populated, start the setup passing an additional `backup` argument:
 
 If you want to encrypt your backups using GPG, provide a `GPG_PASSPHRASE` in `backup.env`.
 
-## Automatically expiring old backups
+### Automatically expiring old backups
 
-This deployment setup can also handle automatic deletion of old backups from your storage. To enable this feature, start the setup passing `expire`:
-
-```sh
-./deploy.sh backup expire
-```
-
-The expire script currently runs once a day at 02:30 UTC. If needed, you can change this schedule in `expire/crontab.txt`.
-
-You can also run this command manually if you prefer not to have the container handle this for you:
-
-```sh
-docker-compose -f docker-compose.expire.yml run --entrypoint expire --rm  expire $AWS_S3_BUCKET_NAME $BACKUP_RETENTION
-```
+The setup can also handle automatic deletion of old backups from your storage. To enable this feature, define `EXPIRE_CRON_EXPRESSION` in `backup.env`
 
 ---
 
@@ -101,7 +89,7 @@ do
     echo "Master ref received. Updating working copy and running deploy script now."
     git --work-tree=/root/offen/deployment --git-dir=/root/offen/deployment.git checkout -f "$ref"
     set +e
-    (cd /root/offen/deployment && prepare && ./deploy.sh backup expire); ec=$?
+    (cd /root/offen/deployment && prepare && ./deploy.sh backup); ec=$?
     set -e
     if [ "$ec" != "0" ]; then
       echo "ERR_DEPLOYMENT_FAILED: deployment script exited with code $ec"
