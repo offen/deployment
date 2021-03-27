@@ -21,7 +21,7 @@ if [ -S "$DOCKER_SOCK" ]; then
   TEMPFILE="$(mktemp)"
   docker ps \
     --format "{{.ID}}" \
-    --filter "label=docker-volume-backup.stop-during-backup=true" \
+    --filter "label=stop-during-backup=true" \
     > "$TEMPFILE"
   CONTAINERS_TO_STOP="$(cat $TEMPFILE | tr '\n' ' ')"
   CONTAINERS_TO_STOP_TOTAL="$(cat $TEMPFILE | wc -l)"
@@ -71,3 +71,19 @@ fi
 
 info "Backup finished"
 echo "Will wait for next scheduled backup"
+
+if [ ! -z "$BACKUP_RETENTION_DAYS" ]; then
+  info "Pruning old backups"
+
+  rule_applies_to=$(mc rm --fake --recursive -force --older-than "${BACKUP_RETENTION_DAYS}d" "backup-target/$bucket" | wc -l)
+  available=$(mc ls "backup-target/$bucket" | wc -l)
+
+  if [ "$rule_applies_to" == "$available" ]; then
+    echo "Using a retention of $BACKUP_RETENTION_DAYS days would prune all existing backups, will not continue."
+    echo "If this is what you want, please remove files manually instead of using this script."
+    exit 1
+  fi
+
+  mc rm --recursive -force --older-than "${BACKUP_RETENTION_DAYS}d" "backup-target/$bucket"
+  echo "Successfully pruned all backups older than ${BACKUP_RETENTION_DAYS} days"
+fi

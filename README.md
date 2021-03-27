@@ -10,8 +10,8 @@ This repository contains the configuration we use for deploying our own instance
 
 - Running off the `offen/offen` image we publish on Docker Hub, no setup other than installing Docker and docker-compose is required to run a production ready application.
 - Data is persisted in a local SQLite database which performs well, is easy to backup and incurs no additional infrastructure costs.
-- The setup is able to acquire and renew its own SSL certificate using LetsEncrypt. Secure transmission of data comes without costs or additional effort.
-- The Docker volume containing the database file is automatically backed up to a S3 compatible storage each day. Old backups can be pruned automatically.
+- The setup is able to acquire and renew its own SSL certificate using LetsEncrypt. Using https comes without costs or additional effort.
+- The Docker volume containing the database file can be automatically backed up to a S3 compatible storage on any schedule. Old backups can be pruned automatically if configured.
 
 ## Quickstart
 
@@ -41,9 +41,6 @@ If you want to regularly back up your database file to an S3 compatible storage,
 ```sh
 cp backup.env.template backup.env
 ```
-
-The backup currently runs once a day at 02:00 UTC. You can change this schedule in `docker-compose.backup.yml`.
-
 Once populated, start the setup passing an additional `backup` argument:
 
 ```sh
@@ -52,9 +49,9 @@ Once populated, start the setup passing an additional `backup` argument:
 
 If you want to encrypt your backups using GPG, provide a `GPG_PASSPHRASE` in `backup.env`.
 
-### Automatically expiring old backups
+### Automatically pruning old backups
 
-The setup can also handle automatic deletion of old backups from your storage. To enable this feature, define `EXPIRE_CRON_EXPRESSION` in `backup.env`
+The setup can also handle automatic deletion of old backups from your storage. To enable this feature, define `BACKUP_RETENTION_DAYS` in `backup.env`, setting it to the maximum age in days for backups that you would like to keep.
 
 ---
 

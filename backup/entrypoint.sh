@@ -11,8 +11,7 @@ BACKUP_SOURCES="${BACKUP_SOURCES:-/backup}"
 BACKUP_CRON_EXPRESSION="${BACKUP_CRON_EXPRESSION:-@daily}"
 BACKUP_FILENAME=${BACKUP_FILENAME:-"backup-%Y-%m-%dT%H-%M-%S.tar.gz"}
 
-EXPIRE_CRON_EXPRESSION="${EXPIRE_CRON_EXPRESSION:-}"
-EXPIRE_RETENTION="${EXPIRE_RETENTION:-7}"
+BACKUP_RETENTION_DAYS="${BACKUP_RETENTION_DAYS:-}"
 
 AWS_S3_BUCKET_NAME="${AWS_S3_BUCKET_NAME:-}"
 AWS_ENDPOINT="${AWS_ENDPOINT:-s3.amazonaws.com}"
@@ -25,13 +24,8 @@ source env.sh
 mc alias set backup-target "https://$AWS_ENDPOINT" "$AWS_ACCESS_KEY_ID" "$AWS_SECRET_ACCESS_KEY"
 
 # Add our cron entry, and direct stdout & stderr to Docker commands stdout
-echo "Installing cron.d entry: backup with expression $BACKUP_CRON_EXPRESSION"
+echo "Installing cron.d entry with expression $BACKUP_CRON_EXPRESSION"
 echo "$BACKUP_CRON_EXPRESSION backup 2>&1" | crontab -
-
-if [ ! -z "$EXPIRE_CRON_EXPRESSION" ]; then
-  echo "Installing cron.d entry: expire with expression $EXPIRE_CRON_EXPRESSION"
-  echo "$EXPIRE_CRON_EXPRESSION expire 2>&1" | crontab -
-fi
 
 # Let cron take the wheel
 echo "Starting cron in foreground"

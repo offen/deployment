@@ -14,7 +14,6 @@ RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc && \
 
 COPY backup.sh expire.sh entrypoint.sh /root/
 RUN chmod +x backup.sh && mv backup.sh /usr/bin/backup \
-  && chmod +x expire.sh && mv expire.sh /usr/bin/expire \
   && chmod +x entrypoint.sh
 
 ENTRYPOINT ["/root/entrypoint.sh"]
