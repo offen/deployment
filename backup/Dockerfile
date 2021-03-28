@@ -12,7 +12,7 @@ RUN wget https://dl.min.io/client/mc/release/linux-amd64/mc && \
   chmod +x mc && \
   mv mc /usr/bin/mc
 
-COPY backup.sh expire.sh entrypoint.sh /root/
+COPY backup.sh entrypoint.sh /root/
 RUN chmod +x backup.sh && mv backup.sh /usr/bin/backup \
   && chmod +x entrypoint.sh
 
