@@ -58,7 +58,7 @@ if [ "$CONTAINERS_TO_STOP_TOTAL" != "0" ]; then
 fi
 
 if [ ! -z "$AWS_S3_BUCKET_NAME" ]; then
-  info "Uploading backup to S3"
+  info "Uploading backup to remote storage"
   echo "Will upload to bucket \"$AWS_S3_BUCKET_NAME\""
   mc cp "$BACKUP_FILENAME" "backup-target/$AWS_S3_BUCKET_NAME"
   echo "Upload finished"
