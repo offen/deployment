@@ -1,15 +1,13 @@
-# Copyright 2020 - Offen Authors <hioffen@posteo.de>
+# Copyright 2020-2021 - Offen Authors <hioffen@posteo.de>
 # SPDX-License-Identifier: MIT
 
 version: '2.3'
 
 services:
   backup:
-    image: futurice/docker-volume-backup:2.3.0
+    build:
+      context: ./backup
     restart: always
-    environment:
-      BACKUP_CRON_EXPRESSION: '0 2 * * *'
-      BACKUP_FILENAME: offen-db-%Y-%m-%dT%H-%M-%S.tar.gz
     env_file: ./backup.env
     logging:
       driver: syslog
