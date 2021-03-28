@@ -1,4 +1,0 @@
-# Copyright 2020 - Offen Authors <hioffen@posteo.de>
-# SPDX-License-Identifier: MIT
-
-30 2 * * * expire $AWS_S3_BUCKET_NAME $BACKUP_RETENTION 2>&1
