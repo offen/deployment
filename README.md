@@ -11,7 +11,7 @@ This repository contains the configuration we use for deploying our own instance
 - Running off the `offen/offen` image we publish on Docker Hub, no setup other than installing Docker and docker-compose is required to run a production ready application.
 - Data is persisted in a local SQLite database which performs well, is easy to backup and incurs no additional infrastructure costs.
 - The setup is able to acquire and renew its own SSL certificate using LetsEncrypt. Using https comes without costs or additional effort.
-- The Docker volume containing the database file can be automatically backed up to a S3 compatible storage on any schedule. Old backups can be pruned automatically if configured.
+- The Docker volume containing the database file can be automatically backed up to a S3 compatible storage on any schedule. Old backups can be pruned automatically if configured. This uses the `offen/docker-volume-backup` image.
 
 ## Quickstart
 
