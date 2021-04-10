@@ -83,7 +83,7 @@ prepare () {
 while read oldrev newrev ref
 do
   if [[ $ref =~ .*/offen-offen-dev$ ]]; then
-    echo "Master ref received. Updating working copy and running deploy script now."
+    echo "offen-offen-dev ref received. Updating working copy and running deploy script now."
     git --work-tree=/root/offen/deployment --git-dir=/root/offen/deployment.git checkout -f "$ref"
     set +e
     (cd /root/offen/deployment && prepare && ./deploy.sh backup); ec=$?
