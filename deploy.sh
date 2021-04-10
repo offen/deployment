@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Copyright 2020 - Offen Authors <hioffen@posteo.de>
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: Unlicense
 
 set -eo pipefail
 
