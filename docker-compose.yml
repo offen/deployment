@@ -19,7 +19,7 @@ services:
       options:
         tag: offen
     labels:
-      - offen.stop-during-backup=true
+      - docker-volume-backup.stop-during-backup=true
 
 volumes:
   db:
