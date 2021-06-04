@@ -5,7 +5,7 @@ version: '2.3'
 
 services:
   offen:
-    image: offen/offen@sha256:ef26f62b422750c4d2e699f9d05a6d083164ef6ea8997241fd6a96618ea9e71d
+    image: offen/offen@sha256:235a91902258724d7eaf2340ef2d167e062d0070479b71c717ea450141dc2280
     restart: always
     ports:
       - 80:80
