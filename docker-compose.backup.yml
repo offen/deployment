@@ -5,7 +5,7 @@ version: '2.3'
 
 services:
   backup:
-    image: offen/docker-volume-backup:v1.8.1
+    image: offen/docker-volume-backup:v1.8.2
     restart: always
     env_file: ./backup.env
     logging:
