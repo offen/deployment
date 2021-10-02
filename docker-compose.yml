@@ -21,6 +21,24 @@ services:
     labels:
       - docker-volume-backup.stop-during-backup=true
 
+  backup:
+    image: offen/docker-volume-backup:v2.3.0
+    restart: always
+    environment:
+      BACKUP_CRON_EXPRESSION: '0 2 * * *'
+      BACKUP_FILENAME: 'offen-db-%Y-%m-%dT%H-%M-%S.tar.gz'
+      BACKUP_LATEST_SYMLINK: 'offen-db-latest.tar.gz'
+      BACKUP_PRUNING_PREFIX: 'offen-db-'
+      BACKUP_RETENTION_DAYS: '7'
+    logging:
+      driver: syslog
+      options:
+        tag: offen
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - db:/backup/offen-db:ro
+      - ${HOME}/backups/offen-db:/archive
+
 volumes:
   db:
   certs:
