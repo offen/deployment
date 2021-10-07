@@ -37,7 +37,7 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - db:/backup/offen-db:ro
-      - ${HOME}/backups/offen-db:/archive
+      - ./backups:/archive
 
 volumes:
   db:
