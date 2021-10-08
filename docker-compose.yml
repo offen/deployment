@@ -36,6 +36,8 @@ services:
         tag: offen
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
       - db:/backup/offen-db:ro
       - ./backups:/archive
 
