@@ -22,7 +22,7 @@ services:
       - docker-volume-backup.stop-during-backup=true
 
   backup:
-    image: offen/docker-volume-backup:v2.3.0
+    image: offen/docker-volume-backup:v2.9.0
     restart: always
     environment:
       BACKUP_CRON_EXPRESSION: '0 2 * * *'
