@@ -4,7 +4,7 @@
 
 # Deployment
 
-This repository contains the configuration we use for deploying our own instance of Offen at `offen.offen.dev` using Docker and docker-compose, running on a bare `CX11` instance at Hetzner. It is designed as a template for you to use in a similar setup.
+This repository contains the configuration we use for deploying our own instance of Offen Fair Web Analytics at `offen.offen.dev` using Docker and docker-compose, running on a bare `CX11` instance at Hetzner. It is designed as a template for you to use in a similar setup.
 
 ## Key features
 
@@ -38,7 +38,7 @@ docker-compose up
 
 ## Configuration
 
-### Offen
+### Offen Fair Web Analytics
 
 The `offen.env` file referenced in the compose files are ignored in this repository as they contain secrets. Refer to the template files for what values are expected. Full documentation for these values is found in the [Offen docs][docs].
 
